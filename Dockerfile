@@ -1,7 +1,7 @@
 FROM node:14
 
 # Create app directory
-WORKDIR /Users/manuelgarcia/Wsockets
+WORKDIR /usr/src/app
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
@@ -15,5 +15,5 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 3001
-CMD [ "npm", "start" ]
+EXPOSE 3003
+CMD ["npm", "start"]

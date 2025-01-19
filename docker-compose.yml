@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
   https-portal:
@@ -8,23 +8,27 @@ services:
       - '443:443'
     environment:
       DOMAINS: 'didactec.com.co -> http://socket_server:3003'
-      STAGE: 'production' # Don't use production until staging works
+      STAGE: 'staging'
+      WEBSOCKET: 'true'  # IMPORTANTE: Habilitar WebSockets en el proxy
     volumes:
       - https-portal-data:/var/lib/https-portal
-    links:
-      - socket_server
+    depends_on:
+      - socket_server  # Reemplaza 'links' por 'depends_on'
+
   socket_server:
-    #build: .
-    image: node:14
+    build: .
     ports:
-      - "3003"
+      - "3003:3003"
     container_name: socket_server
     working_dir: /usr/src/app
     command: >
       /bin/sh -c "npm install && npm start"
     volumes:
-      - ./:/usr/src/app
+      - .:/usr/src/app
+      - /usr/src/app/node_modules  # Evita conflictos con node_modules
     restart: always
+    environment:
+      - NODE_ENV=production
 
 volumes:
-    https-portal-data:
+  https-portal-data:

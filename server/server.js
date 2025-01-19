@@ -6,11 +6,8 @@ const io = require('socket.io')(server, {
     origin: '*',
   }
 });
-/*
-data_test = {
-  time: [1,2,3,4,5,6],
-  distance: [0,1,4,9,16,25,36],
-}*/
+
+const PORT = process.env.PORT || 3003;
 
 var messages = [{
   text: "Pasos",
@@ -64,7 +61,6 @@ io.on('connection', function(socket) {
 
 });
 
-server_port = 3003;
-server.listen(server_port, function() {
-  console.log('listening on *:-'+server_port);
+server.listen(PORT, () => {
+  console.log(`Servidor WebSocket escuchando en el puerto ${PORT}`);
 });
