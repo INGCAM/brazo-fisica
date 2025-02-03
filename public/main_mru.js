@@ -88,7 +88,9 @@ function render(data) {
 }
 
 function setAngle(e) {
+    const movementType = document.getElementById('movementType').value;
     var payload = {
+        movement: movementType,
         angle: document.getElementById('angle').value
     };
     socket.emit('web-to-machine-new-angle', payload);
@@ -108,11 +110,23 @@ function plusAngle(e) {
     }
 }
 
+// Función setArm modificada
 function setArm(e) {
-    setAngle(e);
-    var payload = {
+    const movementType = document.getElementById('movementType').value;
+    let angle;
+
+    if (movementType === 'caida_libre') {
+        angle = 170; // Ángulo fijo para caída libre
+    } else {
+        angle = document.getElementById('angle').value; // Angulo del Manual
+    }
+
+    const payload = {
+        movement: movementType,
+        angle: angle,
         action: "set_arm"
     };
+
     socket.emit('web-to-machine-drop-ball', payload);
 }
 
